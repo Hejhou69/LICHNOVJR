@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pokladna (Firebase)</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="style.css"> <!-- Změň na css/style.css pokud máš složku -->
 </head>
 <body>
   <div class="container">
@@ -14,7 +14,7 @@
     <div class="section">
       <p><strong>Celkem:</strong> <span id="total">0</span> Kč</p>
       <label>Zaplaceno:
-        <input type="number" id="paid" placeholder="Zadaná částka">
+        <input type="number" id="paid" placeholder="Zadaná částka" inputmode="numeric">
       </label>
       <p><strong>Vrátit:</strong> <span id="change">0</span> Kč</p>
     </div>
@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <script type="module" src="js/firebase-config.js"></script>
-  <script type="module" src="js/main.js"></script>
+  <script type="module" src="firebase-config.js"></script> <!-- nebo js/firebase-config.js -->
+  <script type="module" src="main.js"></script>             <!-- nebo js/main.js -->
 </body>
 </html>
