@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokladna (Firebase)</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Prodej</h1>
+    <div id="product-list"></div>
+
+    <div class="section">
+      <p><strong>Celkem:</strong> <span id="total">0</span> Kč</p>
+      <label>Zaplaceno:
+        <input type="number" id="paid" placeholder="Zadaná částka">
+      </label>
+      <p><strong>Vrátit:</strong> <span id="change">0</span> Kč</p>
+    </div>
+
+    <div class="section">
+      <button onclick="saveSale()">💾 Uložit prodej</button>
+      <button onclick="resetSale()">🗑️ Vymazat</button>
+    </div>
+
+    <nav>
+      <a href="products.html">📦 Produkty</a>
+      <a href="history.html">📊 Historie</a>
+      <a href="stats.html">📈 Statistiky</a>
+    </nav>
+
+    <div class="theme-toggle">
+      <button onclick="toggleTheme()">🌗 Přepnout režim</button>
+    </div>
+  </div>
+
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
