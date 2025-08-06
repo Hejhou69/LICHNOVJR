@@ -1,3 +1,7 @@
+/* ---------------------- */
+/* 🧱 Základní vzhled */
+/* ---------------------- */
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -27,6 +31,28 @@ body.dark-mode .container {
   margin-top: 1em;
 }
 
+input[type="number"],
+input[type="text"] {
+  padding: 0.5em;
+  margin: 0.2em 0.5em 0.5em 0;
+  font-size: 1rem;
+  width: calc(100% - 1em);
+  box-sizing: border-box;
+}
+
+/* ---------------------- */
+/* 🔄 Přepínač režimu */
+/* ---------------------- */
+
+.theme-toggle {
+  margin-top: 1em;
+  text-align: center;
+}
+
+/* ---------------------- */
+/* 🛒 Hlavní stránka (index) */
+/* ---------------------- */
+
 #product-list .product {
   display: flex;
   justify-content: space-between;
@@ -34,6 +60,10 @@ body.dark-mode .container {
   margin: 2px 0;
   padding: 2px 0;
   border-bottom: 1px solid #ccc;
+}
+
+.product-info {
+  flex: 1;
 }
 
 .product-buttons {
@@ -52,4 +82,132 @@ body.dark-mode .container {
   align-items: center;
   height: 40px;
   width: 40px;
+}
+
+.qty {
+  min-width: 24px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+/* ---------------------- */
+/* 📦 Produkty (products) */
+/* ---------------------- */
+
+.product {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.3em 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.product button {
+  margin-left: 0.5em;
+  font-size: 1rem;
+}
+
+/* ---------------------- */
+/* 📊 Historie (history) */
+/* ---------------------- */
+
+.history-entry {
+  border: 1px solid #ccc;
+  border-radius: 0.5em;
+  padding: 0.5em 1em;
+  margin-bottom: 1em;
+  background-color: #fafafa;
+}
+
+body.dark-mode .history-entry {
+  background-color: #333;
+  border-color: #555;
+}
+
+.history-entry h3 {
+  margin: 0 0 0.5em 0;
+  font-size: 1.1em;
+}
+
+.history-entry ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.history-entry li {
+  margin-bottom: 0.2em;
+}
+
+/* ---------------------- */
+/* 📈 Statistiky (stats) */
+/* ---------------------- */
+
+.stats-entry {
+  border: 1px solid #ccc;
+  border-radius: 0.5em;
+  padding: 0.5em 1em;
+  margin-bottom: 1em;
+  background-color: #f8f8f8;
+}
+
+body.dark-mode .stats-entry {
+  background-color: #2f2f2f;
+  border-color: #555;
+}
+
+.stats-entry h3 {
+  margin: 0 0 0.5em 0;
+  font-size: 1.1em;
+}
+
+.stats-entry ul {
+  margin: 0.5em 0 0 1em;
+  padding: 0;
+}
+
+.stats-entry li {
+  margin-bottom: 0.2em;
+}
+
+/* ---------------------- */
+/* 🧭 Navigace */
+/* ---------------------- */
+
+nav {
+  margin-top: 1em;
+  display: flex;
+  justify-content: space-around;
+  gap: 1em;
+}
+
+nav a {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+}
+
+body.dark-mode nav a {
+  color: #f0f0f0;
+}
+
+button {
+  font-size: 1rem;
+  padding: 0.4em 0.8em;
+  border: none;
+  border-radius: 0.3em;
+  cursor: pointer;
+  background-color: #ddd;
+}
+
+button:hover {
+  background-color: #ccc;
+}
+
+body.dark-mode button {
+  background-color: #444;
+  color: #f0f0f0;
+}
+
+body.dark-mode button:hover {
+  background-color: #555;
 }
