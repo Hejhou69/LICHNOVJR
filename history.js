@@ -1,25 +1,41 @@
-// history.js
-
 import { db, ref, onValue } from "./firebase-config.js";
 
-const historyList = document.getElementById("history-list");
+const historyListEl = document.getElementById("history-list");
+
+function formatDate(timestamp) {
+  const d = new Date(timestamp);
+  return d.toLocaleDateString("cs-CZ") + " " + d.toLocaleTimeString("cs-CZ");
+}
 
 function renderHistory(data) {
-  historyList.innerHTML = "";
-  const entries = Object.entries(data || {}).sort((a, b) => b[1].timestamp - a[1].timestamp);
+  historyListEl.innerHTML = "";
 
-  for (const [id, entry] of entries) {
-    const div = document.createElement("div");
-    const date = new Date(entry.timestamp).toLocaleString();
-    const products = entry.items.map(i => `${i.name} × ${i.qty}`).join(", ");
-    div.classList.add("history-entry");
-    div.innerHTML = `
-      <p><strong>${date}</strong><br>
-      ${products}<br>
-      <strong>Celkem:</strong> ${entry.total} Kč</p>
-    `;
-    historyList.appendChild(div);
+  const entries = Object.values(data || {}).sort((a, b) => b.timestamp - a.timestamp);
+
+  if (entries.length === 0) {
+    historyListEl.innerHTML = "<p>Žádná historie není k dispozici.</p>";
+    return;
   }
+
+  entries.forEach((entry) => {
+    const div = document.createElement("div");
+    div.classList.add("history-entry");
+
+    const date = formatDate(entry.timestamp);
+    const total = entry.total;
+
+    const itemsList = entry.items.map(i => 
+      `<li>${i.qty}× ${i.name} (${i.price} Kč)</li>`
+    ).join("");
+
+    div.innerHTML = `
+      <h3>${date}</h3>
+      <ul>${itemsList}</ul>
+      <p><strong>Celkem:</strong> ${total} Kč</p>
+    `;
+
+    historyListEl.appendChild(div);
+  });
 }
 
 function loadHistory() {
