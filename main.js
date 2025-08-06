@@ -72,9 +72,20 @@ function loadProducts() {
   onValue(ref(db, "products"), (snapshot) => {
     const data = snapshot.val();
     products = [];
+
     for (const id in data) {
-      products.push({ id, ...data[id] });
+      const item = data[id];
+      products.push({
+        id,
+        name: item.name,
+        price: item.price,
+        order: item.order ?? 9999 // pokud není order, dáme vysoké číslo
+      });
     }
+
+    // Seřadíme produkty podle order
+    products.sort((a, b) => a.order - b.order);
+
     renderProducts();
   });
 }
