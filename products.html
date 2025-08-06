@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produkty (Firebase)</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Produkty</h1>
+
+    <div class="section">
+      <input type="text" id="name" placeholder="Název produktu">
+      <input type="number" id="price" placeholder="Cena">
+      <button onclick="addProduct()">➕ Přidat produkt</button>
+    </div>
+
+    <div id="product-list"></div>
+
+    <nav>
+      <a href="index.html">🏠 Hlavní</a>
+      <a href="history.html">📊 Historie</a>
+      <a href="stats.html">📈 Statistiky</a>
+    </nav>
+  </div>
+
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/products.js"></script>
+</body>
+</html>
