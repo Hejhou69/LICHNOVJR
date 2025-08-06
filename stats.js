@@ -1,57 +1,68 @@
-// stats.js
-
 import { db, ref, onValue } from "./firebase-config.js";
 
-const statsList = document.getElementById("stats-list");
+const statsEl = document.getElementById("stats-list");
 
-function groupByDay(history) {
-  const result = {};
-  for (const key in history) {
-    const entry = history[key];
-    const date = new Date(entry.timestamp).toLocaleDateString("cs-CZ");
-    result[date] = result[date] || { total: 0, items: {} };
-
-    entry.items.forEach(i => {
-      if (!result[date].items[i.name]) {
-        result[date].items[i.name] = { qty: 0, price: i.price };
-      }
-      result[date].items[i.name].qty += i.qty;
-      result[date].total += i.qty * i.price;
-    });
-  }
-  return result;
+function formatDate(timestamp) {
+  const d = new Date(timestamp);
+  return d.toLocaleDateString("cs-CZ");
 }
 
 function renderStats(data) {
-  statsList.innerHTML = "";
-  const grouped = groupByDay(data);
-  const dates = Object.keys(grouped).sort((a, b) => new Date(b) - new Date(a));
+  statsEl.innerHTML = "";
 
-  dates.forEach(date => {
-    const day = grouped[date];
-    const div = document.createElement("div");
-    div.classList.add("stats-day");
-    div.innerHTML = `<h3>${date}</h3>`;
+  const statsByDate = {};
 
-    const ul = document.createElement("ul");
-    for (const name in day.items) {
-      const i = day.items[name];
-      const li = document.createElement("li");
-      li.textContent = `${name}: ${i.qty}× (${i.price} Kč) = ${i.qty * i.price} Kč`;
-      ul.appendChild(li);
+  const entries = Object.values(data || {});
+  entries.forEach((entry) => {
+    const date = formatDate(entry.timestamp);
+
+    if (!statsByDate[date]) {
+      statsByDate[date] = { total: 0, products: {} };
     }
 
-    const totalP = document.createElement("p");
-    totalP.innerHTML = `<strong>Celkem za den:</strong> ${day.total} Kč`;
-    div.appendChild(ul);
-    div.appendChild(totalP);
-    statsList.appendChild(div);
+    statsByDate[date].total += entry.total;
+
+    entry.items.forEach((item) => {
+      const key = item.name;
+      if (!statsByDate[date].products[key]) {
+        statsByDate[date].products[key] = 0;
+      }
+      statsByDate[date].products[key] += item.qty;
+    });
+  });
+
+  const sortedDates = Object.keys(statsByDate).sort((a, b) => {
+    const [da, ma, ya] = a.split(".").map(Number);
+    const [db, mb, yb] = b.split(".").map(Number);
+    return new Date(yb, mb - 1, db) - new Date(ya, ma - 1, da); // sestupně
+  });
+
+  if (sortedDates.length === 0) {
+    statsEl.innerHTML = "<p>Žádná data ke zobrazení.</p>";
+    return;
+  }
+
+  sortedDates.forEach((date) => {
+    const { total, products } = statsByDate[date];
+    const div = document.createElement("div");
+    div.classList.add("stats-entry");
+
+    const productList = Object.entries(products)
+      .map(([name, qty]) => `<li>${qty}× ${name}</li>`)
+      .join("");
+
+    div.innerHTML = `
+      <h3>📅 ${date}</h3>
+      <p><strong>Celkem:</strong> ${total} Kč</p>
+      <ul>${productList}</ul>
+    `;
+    statsEl.appendChild(div);
   });
 }
 
 function loadStats() {
   onValue(ref(db, "history"), (snapshot) => {
-    const data = snapshot.val() || {};
+    const data = snapshot.val();
     renderStats(data);
   });
 }
